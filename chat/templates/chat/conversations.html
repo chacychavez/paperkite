@@ -1,0 +1,9 @@
+{% if conversations %}
+    <ul>
+    {% for conversation in conversations %}
+        <li><a href="/conversations/{{ conversation.id }}/">{{ conversation.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No conversations are available.</p>
+{% endif %}
