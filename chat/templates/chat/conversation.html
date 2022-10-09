@@ -1,1 +1,13 @@
-{{ conversation.name }}
+<h1>{{ conversation.name }}</h1>
+<div>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% for message in conversation.message_set.all %}
+        <p>{{ message.text }}</p>
+    {% endfor %}
+</div>
+
+<form action="{% url 'chat:send_message' conversation.id %}" method="post">
+    {% csrf_token %}
+    <input type="input" value="">
+    <button>Send</button>
+</form>

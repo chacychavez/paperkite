@@ -1,7 +1,11 @@
 {% if conversations %}
     <ul>
     {% for conversation in conversations %}
-        <li><a href="/conversations/{{ conversation.id }}/">{{ conversation.name }}</a></li>
+        <li>
+            <a href="{% url 'chat:conversation' conversation.id %}">
+                {{ conversation.name }}
+            </a>
+        </li>
     {% endfor %}
     </ul>
 {% else %}

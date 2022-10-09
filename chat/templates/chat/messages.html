@@ -1,7 +1,7 @@
 {% if messages %}
     <ul>
     {% for message in messages %}
-        <li><a href="/messages/{{ message.id }}/">{{ message.text }}</a></li>
+        <li><a href="{% url 'chat:message' message.id %}">{{ message.text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

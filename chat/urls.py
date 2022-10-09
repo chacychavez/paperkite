@@ -2,30 +2,18 @@ from django.urls import path
 
 from . import views
 
+app_name = "chat"
 urlpatterns = [
     # ex: /chat/
-    path("", views.index, name="index"),
-    # ex: chat/conversations/
-    path("conversations/", views.conversations, name="conversations"),
-    # ex: /chat/conversations/5/
+    path("", views.IndexView.as_view(), name="index"),
+    path("conversations/", views.ConversationsView.as_view(), name="conversations"),
     path(
-        "conversations/<int:conversation_id>/", views.conversation, name="conversation"
+        "conversations/<int:pk>/",
+        views.ConversationView.as_view(),
+        name="conversation",
     ),
-    # ex: /chat/conversations/5/messages/
     path(
-        "conversations/<int:conversation_id>/messages/",
-        views.messages,
-        name="messages",
-    ),
-    # ex: /chat/conversations/5/messages/5/
-    path(
-        "conversations/<int:conversation_id>/messages/<int:message_id>/",
-        views.message,
-        name="message",
-    ),
-    # ex: /chat/conversations/5/send_message/
-    path(
-        "conversations/<int:conversation_id>/send_message/",
+        "conversations/<int:pk>/send_message/",
         views.send_message,
         name="send_message",
     ),
