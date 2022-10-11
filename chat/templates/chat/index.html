@@ -1,1 +1,27 @@
-<p>Hello, world. You're at the chat dashboard.</p>
+{% extends "chat/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock  %}
+
+<div class="login-container container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-6 logo-container">
+      <div>
+        <img src="{% static 'images/logo.png' %}" />
+        <p>A multi-user chat system using Django</p>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6 form-container row justify-content-center">
+      {% block form %} {% endblock form %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
