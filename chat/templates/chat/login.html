@@ -21,7 +21,7 @@
     <div class="col-md-12 col-lg-6 form-container row justify-content-center">
       <div class="col-lg-7 col-md-8 col-sm-8 col-10 login-header-container">
         <div class="login-header">Hello! Welcome back.</div>
-        <span class="login-subheader">Login to connect with other people</span>
+        <span class="login-subheader">Login to connect with other people.</span>
       </div>
       <form class="col-lg-7 col-md-8 col-sm-8 col-10" method="POST">
         {% csrf_token %}
@@ -42,7 +42,7 @@
       </form>
       <p class="col-lg-7 col-md-8 col-sm-8 col-10 register-span text-center">
         Don't have an account?
-        <a class="register-link" href="/register">Create an account</a>
+        <a class="register-link" href="{% url 'chat:register' %}">Create an account</a>
       </p>
     </div>
   </div>

@@ -49,11 +49,12 @@ def register_request(request):
             messages.success(request, "Registration successful.")
             return redirect("chat:index")
         messages.error(request, "Unsuccessful registration. Invalid information.")
-    form = NewUserForm()
+    else:
+        form = NewUserForm()
     return render(
         request=request,
         template_name="chat/register.html",
-        context={"register_form": form},
+        context={"form": form},
     )
 
 

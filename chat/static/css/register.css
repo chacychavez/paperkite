@@ -1,0 +1,144 @@
+.logo-container, .form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 56px;
+    padding-bottom: 56px;
+}
+.logo-container {
+    background-color: #5F9DF7;
+}
+.logo-container p {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 36px;
+    color: #FFF7E9;
+    margin-top: -24px;
+    text-align: right;
+}
+
+.form-container {
+    background-color: #FFF7E9;
+}
+
+.login-header-container {
+    margin-bottom: 40px;
+}
+
+.login-header {
+    font-family: 'Quicksand';
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.login-subheader {
+    font-family: 'Quicksand';
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.errorlist.nonfield {
+    padding-left: 22px;
+    font-size: 14px;
+    color: #FD1F47;
+}
+
+.form-group label {
+    font-family: 'Source Sans Pro';
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    padding: 16px 18px;
+
+    background: #FFFFFF;
+    border: 1px solid #333333;
+    border-radius: 5px;
+
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+
+    margin-bottom: 16px;
+}
+
+.form-button {
+    margin-top: 4px;
+    width: 100%;
+    height: 64px;
+    left: 912px;
+    top: 622px;
+
+    background: #FF731D;
+    border-radius: 5px;
+
+    font-family: 'Quicksand';
+    font-weight: 700;
+    font-size: 26px;
+    color: #FFFFFF;
+
+    border: none;
+}
+
+.register-span {
+    margin-top: 10px;
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #333333;
+}
+
+.register-link {
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-size: 20px;
+    color: #FF731D;
+
+}
+
+
+@media screen and (max-width: 800px) {
+    .logo-container img {
+        height: 64px;
+    }
+    .logo-container p {
+        font-size: 17px;
+        margin-top: -10px;
+    }
+}
+
+@media screen and (max-width: 1500px) and (min-width: 800px) {
+    .logo-container img {
+        height: 80px;
+    }
+    .logo-container p {
+        font-size: 21px;
+        margin-top: -14px;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    .login-header {
+        font-size: 30px;
+    }
+
+    .login-subheader {
+        font-family: 'Quicksand';
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    .register-span {
+        text-align: center;
+    }
+
+    .register-link {
+        display: block;
+    }
+}

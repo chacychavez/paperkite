@@ -6,11 +6,40 @@ from django.contrib.auth.models import User
 
 
 class NewUserForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = (
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "password1",
+            "password2",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["first_name"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Enter your first name"}
+        )
+        self.fields["last_name"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Enter your last name"}
+        )
+        self.fields["username"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Enter your username"}
+        )
+        self.fields["email"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Enter your email"}
+        )
+        self.fields["password1"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Enter your username"}
+        )
+        self.fields["password2"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Re-enter your password"}
+        )
 
     def save(self, commit=True):
         user = super(NewUserForm, self).save(commit=False)
@@ -24,8 +53,8 @@ class CustomLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "Please enter your username"}
+            {"class": "form-control", "placeholder": "Enter your username"}
         )
         self.fields["password"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "Please enter your password"}
+            {"class": "form-control", "placeholder": "Enter your password"}
         )
