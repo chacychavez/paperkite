@@ -1,16 +1,48 @@
+{% extends "chat/base.html" %}
+
+{% block title %}Login{% endblock %}
 
 {% block content %}
 
+{% load static %}
 
-<!--Login-->
-<div class="container py-5">
-  <h1>Login</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{ login_form }}
-    <button class="btn btn-primary" type="submit">Login</button>
-  </form>
-  <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+{% endblock  %}
+
+<div class="login-container container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-6 logo-container">
+      <div>
+        <img src="{% static 'images/logo.png' %}" />
+        <p>A multi-user chat system using Django</p>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6 form-container row justify-content-center">
+      <div class="col-lg-7 col-md-8 col-sm-8 col-10 login-header-container">
+        <div class="login-header">Hello! Welcome back.</div>
+        <span class="login-subheader">Login to connect with other people</span>
+      </div>
+      <form class="col-lg-7 col-md-8 col-sm-8 col-10" method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group ">
+            <label class="form-label" for="{{ form.username.id_for_label }}">Username:</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+        <div class="">
+          <button class="form-button " type="submit">Start now!</button>
+        </div>
+      </form>
+      <p class="col-lg-7 col-md-8 col-sm-8 col-10 register-span text-center">Don't have an account? <a class="register-link" href="/register">Create an account</a></p>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

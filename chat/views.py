@@ -1,11 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 
-from .forms import NewUserForm
+from .forms import CustomLoginForm, NewUserForm
 from .models import Conversation
 
 
@@ -15,7 +14,7 @@ class IndexView(generic.TemplateView):
 
 def login_request(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomLoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
@@ -28,9 +27,10 @@ def login_request(request):
                 messages.error(request, "Invalid username or password.")
         else:
             messages.error(request, "Invalid username or password.")
-    form = AuthenticationForm()
+    else:
+        form = CustomLoginForm()
     return render(
-        request=request, template_name="chat/login.html", context={"login_form": form}
+        request=request, template_name="chat/login.html", context={"form": form}
     )
 
 
