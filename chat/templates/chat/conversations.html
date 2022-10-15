@@ -1,13 +1,60 @@
-{% if conversations %}
-    <ul>
-    {% for conversation in conversations %}
-        <li>
-            <a href="{% url 'chat:conversation' conversation.id %}">
-                {{ conversation.name }}
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No conversations are available.</p>
-{% endif %}
+{% extends "chat/base.html" %}
+
+{% block title %}Conversations{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/conversations.css' %}">
+{% endblock  %}
+
+
+
+<div class="main-container container-fluid d-flex flex-column">
+<nav class="navbar bg-light">
+    <div class="container-fluid justify-content-center">
+        <a class="navbar-brand" href="#"><img src="{% static 'images/logo-black.png' %}" /></a>
+    </div>
+</nav>
+<div class="row flex-fill">
+    <div class="conversation-list-container col-lg-3 col-md-3">
+        <div class="conversation-list-header">
+            <div class="avatar"></div>
+            <h1>Conversations</h1>
+        </div>
+        <div class="search">
+            <input type="text" placeholder="Search paperkite"/>
+        </div>
+        <div class="conversation-list">
+            {% if conversations %}
+            <ul>
+                {% for conversation in conversations %}
+                <li>
+                    <a href="{% url 'chat:conversation' conversation.id %}">
+                        {{ conversation.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+        <p>No conversations are available.</p>
+        {% endif %}
+    </div>
+    </div>
+    <div class="conversation-container col-lg-6 col-md-6 d-flex flex-column">
+        <div class="conversation-header">Conversation</div>
+        <div class="message-list flex-fill"></div>
+        <div class="input-container">
+            <input type="text" />
+            <button type="button">send</buton>
+        </div>
+    </div>
+    <div class="conversation-details-container col-lg-3 col-md-3">Conversation details</div>
+</div>
+</div>
+
+{% endblock %}
+
+
