@@ -1,14 +1,13 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from .views import (
     ConversationsView,
     ConversationView,
     IndexView,
+    NewConversationView,
     login_request,
     logout_request,
     register_request,
-    send_message,
 )
 
 app_name = "chat"
@@ -20,7 +19,7 @@ urlpatterns = [
     path("logout/", logout_request, name="logout"),
     path(
         "conversations/",
-        login_required(ConversationsView.as_view()),
+        ConversationsView.as_view(),
         name="conversations",
     ),
     path(
@@ -29,8 +28,8 @@ urlpatterns = [
         name="conversation",
     ),
     path(
-        "conversations/<int:pk>/send_message/",
-        send_message,
-        name="send_message",
+        "conversations/new/",
+        NewConversationView.as_view(),
+        name="new_conversation",
     ),
 ]

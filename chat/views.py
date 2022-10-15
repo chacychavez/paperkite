@@ -1,15 +1,21 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views import generic
+from django.utils.decorators import method_decorator
+from django.views import View, generic
 
 from .forms import CustomLoginForm, NewUserForm
-from .models import Conversation
+from .models import ChatUser, Conversation, ConversationChatUser, Message
 
 
 class IndexView(generic.TemplateView):
-    template_name = "chat/index.html"
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect("chat:conversations")
+        else:
+            return redirect("chat:login")
 
 
 def login_request(request):
@@ -58,48 +64,109 @@ def register_request(request):
     )
 
 
-class ConversationsView(generic.ListView):
+@method_decorator(login_required, name="dispatch")
+class ConversationsView(View):
     template_name = "chat/conversations.html"
-    context_object_name = "conversations"
 
-    def get_queryset(self):
-        """Return conversations odered by datetime."""
-        return Conversation.objects.order_by("-updated_at")
+    def get(self, request):
+        user_id = request.user.id
+        user_conversations = ConversationChatUser.objects.filter(
+            chat_user_id=user_id
+        ).values("conversation_id")
+        conversations = []
+        for user_converstation in user_conversations:
+            conversation = Conversation.objects.get(
+                pk=user_converstation.conversation_id
+            )
+            conversations.append(conversation)
+        return render(request, self.template_name, {"converstations": conversations})
+
+    def post(self, request):
+        return redirect("chat:new_conversation")
 
 
-class ConversationView(generic.DetailView):
-    model = Conversation
+@method_decorator(login_required, name="dispatch")
+class ConversationView(View):
     template_name = "chat/conversation.html"
 
+    def get(self, request, conversation_id):
+        user_id = request.user.id
+        user_conversations = ConversationChatUser.objects.filter(
+            chat_user_id=user_id
+        ).values("conversation_id")
+        conversations = []
+        for user_converstation in user_conversations:
+            conversation = Conversation.objects.get(
+                pk=user_converstation.conversation_id
+            )
+            conversations.append(conversation)
+        messages = Message.objects.filter(conversation_id=conversation_id).order_by(
+            "-sent_at"
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "converstations": conversations,
+                "conversation_id": conversation_id,
+                "messages": messages,
+            },
+        )
 
-def send_message(request, conversation_id):
-    conversation = get_object_or_404(Conversation, pk=conversation_id)
-    return render(
-        request,
-        "chat/conversation.html",
-        {
-            "conversation": conversation,
-            "error_message": "You didn't type any message.",
-        },
-    )
-    # try:
-    #     selected_choice = conversation.choice_set.get(pk=request.POST["choice"])
-    # except (KeyError, Choice.DoesNotExist):
-    #     # Redisplay the question voting form.
-    #     return render(
-    #         request,
-    #         "polls/detail.html",
-    #         {
-    #             "question": conversation,
-    #             "error_message": "You didn't type any message.",
-    #         },
-    #     )
-    # else:
-    #     selected_choice.votes += 1
-    #     selected_choice.save()
-    #     # Always return an HttpResponseRedirect after successfully dealing
-    #     # with POST data. This prevents data from being posted twice if a
-    #     # user hits the Back button.
-    #     return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
-    # response = f"You are sending a message to conversation {conversation_id}."
-    # return HttpResponse(response)
+    def post(self, request, conversation_id):
+        # TODO: Send message
+        conversation = get_object_or_404(Conversation, pk=conversation_id)
+        return render(
+            request,
+            "chat/conversation.html",
+            {
+                "conversation": conversation,
+                "error_message": "You didn't type any message.",
+            },
+        )
+        # try:
+        #     selected_choice = conversation.choice_set.get(pk=request.POST["choice"])
+        # except (KeyError, Choice.DoesNotExist):
+        #     # Redisplay the question voting form.
+        #     return render(
+        #         request,
+        #         "polls/detail.html",
+        #         {
+        #             "question": conversation,
+        #             "error_message": "You didn't type any message.",
+        #         },
+        #     )
+        # else:
+        #     selected_choice.votes += 1
+        #     selected_choice.save()
+        #     # Always return an HttpResponseRedirect after successfully dealing
+        #     # with POST data. This prevents data from being posted twice if a
+        #     # user hits the Back button.
+        #     return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+        # response = f"You are sending a message to conversation {conversation_id}."
+        # return HttpResponse(response)
+
+
+class NewConversationView(View):
+    template_name = "chat/conversations.html"
+
+    def get(self, request):
+        user_id = request.user.id
+        user_conversations = ConversationChatUser.objects.filter(
+            chat_user_id=user_id
+        ).values("conversation_id")
+        conversations = []
+        for user_converstation in user_conversations:
+            conversation = Conversation.objects.get(
+                pk=user_converstation.conversation_id
+            )
+            conversations.append(conversation)
+        users = ChatUser.objects.all()
+        return render(
+            request,
+            self.template_name,
+            {"converstations": conversations, "new": True, "users": users},
+        )
+
+    def post(self, request):
+        pass

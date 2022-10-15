@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 @receiver(post_save, sender=User)
-def create_chat_user(sender, instance, created):
+def create_chat_user(sender, instance, created, **kwargs):
     if created:
         ChatUser.objects.create(user=instance)
 
