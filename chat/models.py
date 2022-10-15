@@ -1,6 +1,14 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
+
+
+@receiver(post_save, sender=User)
+def create_chat_user(sender, instance, created):
+    if created:
+        ChatUser.objects.create(user=instance)
 
 
 class ChatUser(models.Model):
