@@ -23,17 +23,17 @@
     background-color: #FFF7E9;
 }
 
-.login-header-container {
+.home-header-container {
     margin-bottom: 40px;
 }
 
-.login-header {
+.home-header {
     font-family: 'Quicksand';
     font-weight: 700;
     font-size: 40px;
 }
 
-.login-subheader {
+.home-subheader {
     font-family: 'Quicksand';
     font-weight: 500;
     font-size: 24px;
